@@ -14,7 +14,7 @@ class WeatherRepository {
   Future<List<Weather>> getWeatherList(String city) async {
     final location = await _weatherApiClient.locationSearch(city);
     final woeid = location.woeid;
-    final apiWeatherList = await _weatherApiClient.getWeather(woeid);
+    final apiWeatherList = await _weatherApiClient.getWeatherList(woeid);
     final weathreList = apiWeatherList
         .map((e) => Weather(
             location: location.title,

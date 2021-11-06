@@ -52,7 +52,7 @@ class MetaWeatherApiClient {
   }
 
   /// Fetches [Weather] for a given [locationId].
-  Future<Weather> getWeather(int locationId) async {
+  Future<List<Weather>> getWeatherList(int locationId) async {
     final weatherRequest = Uri.https(_baseUrl, '/api/location/$locationId');
     final weatherResponse = await _httpClient.get(weatherRequest);
 
@@ -72,6 +72,8 @@ class MetaWeatherApiClient {
       throw WeatherNotFoundFailure();
     }
 
-    return Weather.fromJson(weatherJson.first as Map<String, dynamic>);
+    final weatherList = weatherJson.map((e) => Weather.fromJson(e)).toList();
+
+    return weatherList;
   }
 }
