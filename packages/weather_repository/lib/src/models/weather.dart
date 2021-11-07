@@ -41,4 +41,8 @@ class Weather extends Equatable {
 
   @override
   List<Object> get props => [location, temperature, condition, date];
+  // @override
+  // String toString() {
+  //   return 'weather:$location,$temperature,$condition,$date';
+  // }
 }
