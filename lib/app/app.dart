@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:minimal_weather/counter/counter.dart';
 import 'package:minimal_weather/l10n/l10n.dart';
+import 'package:minimal_weather/weather/view/weather_page.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -27,7 +28,8 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      //TODO: change to weather_page
+      home: const WeatherView(),
     );
   }
 }
