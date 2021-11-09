@@ -24,9 +24,6 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       var weatherList = weatherListFromRepository
           .map((e) => Weather.fromRepository(e))
           .toList();
-      // final weather = Weather.fromRepository(
-      //   await _weatherRepository.getWeather(city),
-      // );
 
       final units = state.temperatureUnits;
       if (units.isFahrenheit == true) {
@@ -42,20 +39,11 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
             .toList();
       }
 
-      // final valueList = weatherList.map((e) => units.isFahrenheit
-      //     ? e.temperature.value.toFahrenheit()
-      //     : e.temperature.value);
-      // final value = units.isFahrenheit
-      //     ? weather.temperature.value.toFahrenheit()
-      //     : weather.temperature.value;
-
       emit(
         state.copyWith(
           status: WeatherStatus.success,
           temperatureUnits: units,
           weatherList: weatherList,
-
-          // weather: weather.copyWith(temperature: Temperature(value: value)),
         ),
       );
     } on Exception {
@@ -65,12 +53,8 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
   Future<void> refreshWeather() async {
     if (!state.status.isSuccess) return;
-    // if (state.weather == Weather.empty) return;
     if (state.weatherList.isEmpty) return;
     try {
-      // final weather = Weather.fromRepository(
-      //   await _weatherRepository.getWeather(state.weather.location),
-      // );
       final weatherListFromRepository = await _weatherRepository
           .getWeatherList(state.weatherList.first.location);
       var weatherList = weatherListFromRepository
@@ -78,9 +62,6 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
           .toList();
 
       final units = state.temperatureUnits;
-      // final value = units.isFahrenheit
-      //     ? weather.temperature.value.toFahrenheit()
-      //     : weather.temperature.value;
       if (units.isFahrenheit == true) {
         weatherList = weatherList
             .map((e) => e.copyWith(
@@ -118,10 +99,6 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
     var weatherList = state.weatherList;
     if (weatherList.isNotEmpty) {
-      // final temperature = weather.temperature;
-      // final value = units.isCelsius
-      //     ? temperature.value.toCelsius()
-      //     : temperature.value.toFahrenheit();
       if (units.isFahrenheit == true) {
         weatherList = weatherList
             .map((e) => e.copyWith(

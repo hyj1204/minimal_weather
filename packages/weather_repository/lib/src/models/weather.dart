@@ -3,14 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'weather.g.dart';
 
-// enum WeatherCondition {
-//   clear,
-//   rainy,
-//   cloudy,
-//   snowy,
-//   unknown,
-// }
-
 enum WeatherCondition {
   clear,
   rainy,
@@ -41,8 +33,4 @@ class Weather extends Equatable {
 
   @override
   List<Object> get props => [location, temperature, condition, date];
-  // @override
-  // String toString() {
-  //   return 'weather:$location,$temperature,$condition,$date';
-  // }
 }

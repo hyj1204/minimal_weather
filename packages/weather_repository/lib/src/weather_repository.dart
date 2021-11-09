@@ -32,6 +32,7 @@ class WeatherRepository {
   }
 }
 
+//在repository里面用到的condition类型
 extension on WeatherState {
   WeatherCondition get toCondition {
     switch (this) {

@@ -43,6 +43,7 @@ class CounterView extends StatelessWidget {
           const SizedBox(height: 8),
           FloatingActionButton(
             key: const Key('counterView_decrement_floatingActionButton'),
+            //执行里面的函数
             onPressed: () => context.read<CounterCubit>().decrement(),
             child: const Icon(Icons.remove),
           ),
@@ -58,6 +59,7 @@ class CounterText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    //读取一个值
     final count = context.select((CounterCubit cubit) => cubit.state);
     return Text('$count', style: theme.textTheme.headline1);
   }
