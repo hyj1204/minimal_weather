@@ -10,7 +10,7 @@ class WeatherError extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Lottie.asset('assets/states/error.json', width: 300),
+        Lottie.asset('assets/states/error.json', width: 200),
         Text(
           'Something went wrong',
           style: theme.textTheme.headline2,

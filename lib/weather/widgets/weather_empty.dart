@@ -11,6 +11,9 @@ class WeatherEmpty extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Lottie.asset('assets/states/empty.json', width: 300),
+        const SizedBox(
+          height: 10,
+        ),
         Text(
           'Please search a city',
           style: theme.textTheme.headline2,
