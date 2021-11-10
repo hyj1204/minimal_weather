@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:minimal_weather/l10n/l10n.dart';
 
 class WeatherEmpty extends StatelessWidget {
   const WeatherEmpty({Key? key}) : super(key: key);
@@ -7,6 +8,7 @@ class WeatherEmpty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -15,7 +17,7 @@ class WeatherEmpty extends StatelessWidget {
           height: 10,
         ),
         Text(
-          'Please search a city',
+          l10n.weatherEmptyTitle,
           style: theme.textTheme.headline2,
         ),
       ],

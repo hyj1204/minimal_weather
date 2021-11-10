@@ -1,31 +1,31 @@
 {
-    "@@locale": "en",
-    "weatherEmptyTitle": "Please search a city",
+    "@@locale": "zh",
+    "weatherEmptyTitle": "请输入您想要查询的城市",
     "@weatherEmptyTitle": {
         "description": "Text shown in the weather empty widget"
     },
 
-    "weatherErrorTitle1": "Something went wrong",
+     "weatherErrorTitle1": "无法获得数据",
     "@weatherErrorTitle1": {
         "description": "Text shown in the weather error widget"
     },
 
-    "weatherErrorTitle2": "Please try again",
+    "weatherErrorTitle2": "请再试一次",
     "@weatherErrorTitle2": {
         "description": "Text shown in the weather error widget"
     },
-
-    "weatherLoadingTitle": "Loading",
+    
+    "weatherLoadingTitle": "加载中",
     "@weatherLoadingTitle": {
         "description": "Text shown in the weather loading widget"
     },
 
-    "weatherPopulatedTitle": "Last Updated at",
+    "weatherPopulatedTitle": "最近更新于",
     "@weatherPopulatedTitle": {
         "description": "Text shown in the weather populated widget"
     },
 
-    "animatedSearchBarText": "Search a city",
+     "animatedSearchBarText": "搜索城市",
     "@animatedSearchText": {
         "description": "Text shown in the animated search bar widget"
     }

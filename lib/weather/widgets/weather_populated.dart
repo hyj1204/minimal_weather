@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:minimal_weather/weather/weather.dart';
+import 'package:minimal_weather/l10n/l10n.dart';
 
 class WeatherPopulated extends StatelessWidget {
   const WeatherPopulated({
@@ -18,6 +19,7 @@ class WeatherPopulated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 120, 0, 0),
@@ -36,7 +38,7 @@ class WeatherPopulated extends StatelessWidget {
               _FutureWeather(
                   weatherList: weatherList, theme: theme, units: units),
               Text(
-                '''Last Updated at ${TimeOfDay.fromDateTime(weatherList.first.lastUpdated).format(context)}''',
+                '''${l10n.weatherPopulatedTitle} ${TimeOfDay.fromDateTime(weatherList.first.lastUpdated).format(context)}''',
                 style: theme.textTheme.headline2,
               ),
             ],

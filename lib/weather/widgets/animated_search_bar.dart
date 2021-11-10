@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:minimal_weather/weather/weather.dart';
 import 'package:provider/src/provider.dart';
+import 'package:minimal_weather/l10n/l10n.dart';
 
 class AnimatedSearchBar extends StatefulWidget {
   const AnimatedSearchBar({Key? key}) : super(key: key);
@@ -13,8 +14,10 @@ class AnimatedSearchBar extends StatefulWidget {
 
 class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
   bool _folded = true;
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -34,7 +37,7 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
                     autofocus: true,
                     cursorColor: theme.backgroundColor,
                     decoration: InputDecoration(
-                      hintText: 'Search a city',
+                      hintText: l10n.animatedSearchBarText,
                       hintStyle: TextStyle(color: theme.backgroundColor),
                       border: InputBorder.none,
                     ),
