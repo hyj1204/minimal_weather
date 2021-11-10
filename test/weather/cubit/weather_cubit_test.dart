@@ -34,6 +34,7 @@ void main() {
       when(
         () => weatherRepository.getWeatherList(any()),
       ).thenAnswer((_) async => [weather]);
+      when(() => weather.date).thenReturn(weatherDate);
     });
 
     test('initial state is correct', () {
