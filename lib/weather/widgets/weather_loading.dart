@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class WeatherLoading extends StatelessWidget {
   const WeatherLoading({Key? key}) : super(key: key);
@@ -7,16 +8,15 @@ class WeatherLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('⛅', style: TextStyle(fontSize: 64)),
-        Text(
-          'Loading Weather',
-          style: theme.textTheme.headline5,
+        Lottie.asset(
+          'assets/states/loading.json',
+          width: 300,
         ),
-        const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: CircularProgressIndicator(),
+        Text(
+          'Loading',
+          style: theme.textTheme.headline2,
         ),
       ],
     );

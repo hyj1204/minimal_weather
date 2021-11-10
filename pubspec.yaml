@@ -37,3 +37,4 @@ flutter:
   generate: true
   assets:
     - assets/condition_lotties/
+    - assets/states/

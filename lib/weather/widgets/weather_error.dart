@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class WeatherError extends StatelessWidget {
   const WeatherError({Key? key}) : super(key: key);
@@ -7,13 +8,16 @@ class WeatherError extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('🙈', style: TextStyle(fontSize: 64)),
+        Lottie.asset('assets/states/error.json', width: 300),
         Text(
-          'Something went wrong!',
-          style: theme.textTheme.headline5,
+          'Something went wrong',
+          style: theme.textTheme.headline2,
+        ),
+        Text(
+          'Please try again',
+          style: theme.textTheme.headline2,
         ),
       ],
     );

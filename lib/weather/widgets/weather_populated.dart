@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:minimal_weather/app/constants.dart';
 import 'package:minimal_weather/weather/weather.dart';
 
 class WeatherPopulated extends StatelessWidget {
@@ -21,45 +19,110 @@ class WeatherPopulated extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      backgroundColor: theme.backgroundColor,
-      body: Center(
-          child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _TodayWeather(
-              weather: weatherList[0],
-              units: units,
-            ),
-            Flexible(
-              child: ListView.separated(
-                separatorBuilder: (context, index) => const SizedBox(height: 5),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: weatherList.length - 1,
-                itemBuilder: (context, index) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        DateFormat.MMMEd().format(weatherList[index + 1].date),
-                        style: theme.textTheme.headline2,
-                      ),
-                      _WeatherIcon(
-                        condition: weatherList[index + 1].condition,
-                        size: 50,
-                      ),
-                      Text(
-                        weatherList[index + 1].formattedTemperature(units),
-                        style: theme.textTheme.headline2,
-                      ),
-                    ]),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 120, 5, 0),
+      child: RefreshIndicator(
+        color: theme.backgroundColor,
+        onRefresh: onRefresh,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _TodayWeather(
+                weather: weatherList[0],
+                units: units,
               ),
-            ),
-          ],
+              _FutureWeather(
+                  weatherList: weatherList, theme: theme, units: units),
+              Text(
+                '''Last Updated at ${TimeOfDay.fromDateTime(weatherList.first.lastUpdated).format(context)}''',
+                style: theme.textTheme.headline2,
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
+    );
+  }
+}
+
+class _FutureWeather extends StatelessWidget {
+  const _FutureWeather({
+    Key? key,
+    required this.weatherList,
+    required this.theme,
+    required this.units,
+  }) : super(key: key);
+
+  final List<Weather> weatherList;
+  final ThemeData theme;
+  final TemperatureUnits units;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: ListView.separated(
+            padding: EdgeInsets.zero,
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: weatherList.length - 1,
+            itemBuilder: (context, index) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: 140,
+                    child: Text(
+                      DateFormat.MMMEd().format(weatherList[index + 1].date),
+                      style: theme.textTheme.headline2,
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ]),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: weatherList.length - 1,
+            itemBuilder: (context, index) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: 50,
+                    child: _WeatherIcon(
+                      condition: weatherList[index + 1].condition,
+                      size: 50,
+                    ),
+                  ),
+                ]),
+          ),
+        ),
+        Expanded(
+          child: ListView.separated(
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: weatherList.length - 1,
+            itemBuilder: (context, index) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: 60,
+                    child: Text(
+                      weatherList[index + 1].formattedTemperature(units),
+                      style: theme.textTheme.headline2,
+                    ),
+                  ),
+                ]),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -78,6 +141,7 @@ class _TodayWeather extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           weather.location,
@@ -87,6 +151,7 @@ class _TodayWeather extends StatelessWidget {
           'Today',
           style: theme.textTheme.headline2,
         ),
+        const SizedBox(height: 20),
         _WeatherIcon(
           condition: weather.condition,
           size: 100,

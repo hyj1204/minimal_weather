@@ -10,10 +10,5 @@ import 'package:minimal_weather/app/app.dart';
 import 'package:minimal_weather/counter/counter.dart';
 
 void main() {
-  group('App', () {
-    testWidgets('renders CounterPage', (tester) async {
-      await tester.pumpWidget(const App());
-      expect(find.byType(CounterPage), findsOneWidget);
-    });
-  });
+  group('App', () {});
 }
