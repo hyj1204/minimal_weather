@@ -52,7 +52,7 @@ class WeatherView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           UnitButton(weatherCubit: context.read<WeatherCubit>()),
-          const AnimatedSearchBar(),
+          const Expanded(child: AnimatedSearchBar()),
         ],
       ),
       resizeToAvoidBottomInset: false,

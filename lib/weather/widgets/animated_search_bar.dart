@@ -16,10 +16,8 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
     final theme = Theme.of(context);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      //TODO: change max width to screensize - button
       width: _folded ? 56 : 300,
       height: 56,
-
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(32),
         color: _folded ? theme.backgroundColor : Colors.white,
@@ -27,14 +25,14 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
       child: Row(children: [
         Expanded(
           child: Container(
-            padding: EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 16),
             child: _folded
                 ? null
                 : TextField(
                     autofocus: true,
                     cursorColor: theme.backgroundColor,
                     decoration: InputDecoration(
-                      hintText: 'Search',
+                      hintText: 'Search a city',
                       hintStyle: TextStyle(color: theme.backgroundColor),
                       border: InputBorder.none,
                     ),

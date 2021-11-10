@@ -42,15 +42,20 @@ class WeatherAppView extends StatelessWidget {
         appBarTheme: const AppBarTheme(backgroundColor: _darkBlackColor),
         backgroundColor: _darkBlackColor,
         textTheme: TextTheme(
-          headline1: GoogleFonts.quicksand(
+          headline1: GoogleFonts.lora(
             fontSize: 48,
             color: _whiteColor,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
           ),
-          headline2: GoogleFonts.quicksand(
+          headline2: GoogleFonts.lora(
+            fontSize: 20,
+            color: _whiteColor,
+            fontWeight: FontWeight.w100,
+          ),
+          bodyText1: GoogleFonts.lora(
             fontSize: 24,
             color: _whiteColor,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
         ),
         iconTheme: const IconThemeData(color: _darkBlackColor),

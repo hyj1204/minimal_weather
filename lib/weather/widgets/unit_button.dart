@@ -17,8 +17,8 @@ class UnitButton extends StatelessWidget {
           builder: (context, state) {
             return TextButton(
               child: Text(
-                state.temperatureUnits.isCelsius ? '\u2103' : '\u2109',
-                style: theme.textTheme.headline2,
+                state.temperatureUnits.isCelsius ? '°C' : '°F',
+                style: theme.textTheme.bodyText1,
               ),
               onPressed: () => context.read<WeatherCubit>().toggleUnits(),
             );
