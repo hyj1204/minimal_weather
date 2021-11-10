@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import 'package:flutter/material.dart';
 import 'package:minimal_weather/weather/weather.dart';
 import 'package:provider/src/provider.dart';

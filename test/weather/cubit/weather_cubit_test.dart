@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, lines_longer_than_80_chars
 import 'package:bloc_test/bloc_test.dart';
 import 'package:minimal_weather/weather/weather.dart';
 import 'package:mocktail/mocktail.dart';
