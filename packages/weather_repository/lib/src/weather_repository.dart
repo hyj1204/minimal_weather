@@ -23,16 +23,9 @@ class WeatherRepository {
             date: e.applicableDate))
         .toList();
     return weathreList;
-
-    // return Weather(
-    //   temperature: weather.theTemp,
-    //   location: location.title,
-    //   condition: weather.weatherStateAbbr.toCondition,
-    // );
   }
 }
 
-//在repository里面用到的condition类型
 extension on WeatherState {
   WeatherCondition get toCondition {
     switch (this) {

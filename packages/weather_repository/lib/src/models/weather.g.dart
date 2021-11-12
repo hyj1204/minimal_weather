@@ -13,7 +13,10 @@ Weather _$WeatherFromJson(Map<String, dynamic> json) {
       temperature:
           $checkedConvert(json, 'temperature', (v) => (v as num).toDouble()),
       condition: $checkedConvert(
-          json, 'condition', (v) => _$enumDecode(_$WeatherConditionEnumMap, v)),
+          json,
+          'condition',
+          (v) => _$enumDecode(_$WeatherConditionEnumMap, v,
+              unknownValue: WeatherCondition.unknown)),
       date: $checkedConvert(json, 'date', (v) => DateTime.parse(v as String)),
     );
     return val;

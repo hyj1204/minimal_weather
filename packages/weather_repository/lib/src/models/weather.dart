@@ -28,6 +28,7 @@ class Weather extends Equatable {
 
   final String location;
   final double temperature;
+  @JsonKey(unknownEnumValue: WeatherCondition.unknown)
   final WeatherCondition condition;
   final DateTime date;
 
