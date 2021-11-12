@@ -14,7 +14,8 @@ enum LocationType {
   @JsonValue('Country')
   country,
   @JsonValue('Continent')
-  continent
+  continent,
+  unknown
 }
 
 @JsonSerializable()
@@ -30,6 +31,7 @@ class Location {
       _$LocationFromJson(json);
 
   final String title;
+  @JsonKey(unknownEnumValue: LocationType.unknown)
   final LocationType locationType;
   @JsonKey(name: 'latt_long')
   @LatLngConverter()

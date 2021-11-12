@@ -13,7 +13,10 @@ Location _$LocationFromJson(Map<String, dynamic> json) {
     final val = Location(
       title: $checkedConvert(json, 'title', (v) => v as String),
       locationType: $checkedConvert(
-          json, 'location_type', (v) => _$enumDecode(_$LocationTypeEnumMap, v)),
+          json,
+          'location_type',
+          (v) => _$enumDecode(_$LocationTypeEnumMap, v,
+              unknownValue: LocationType.unknown)),
       latLng: $checkedConvert(json, 'latt_long',
           (v) => const LatLngConverter().fromJson(v as String)),
       woeid: $checkedConvert(json, 'woeid', (v) => v as int),
@@ -58,4 +61,5 @@ const _$LocationTypeEnumMap = {
   LocationType.province: 'Province',
   LocationType.country: 'Country',
   LocationType.continent: 'Continent',
+  LocationType.unknown: 'unknown',
 };
