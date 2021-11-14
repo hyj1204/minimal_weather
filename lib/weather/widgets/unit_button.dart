@@ -11,18 +11,16 @@ class UnitButton extends StatelessWidget {
     final theme = Theme.of(context);
     return BlocProvider.value(
       value: weatherCubit,
-      child: BlocBuilder<WeatherCubit, WeatherState>(
-          buildWhen: (previous, current) =>
-              previous.temperatureUnits != current.temperatureUnits,
-          builder: (context, state) {
-            return TextButton(
-              child: Text(
-                state.temperatureUnits.isCelsius ? '°C' : '°F',
-                style: theme.textTheme.bodyText1,
-              ),
-              onPressed: () => context.read<WeatherCubit>().toggleUnits(),
-            );
-          }),
+      child: BlocBuilder<WeatherCubit, WeatherState>(builder: (context, state) {
+        return TextButton(
+          key: const Key('unit_button'),
+          child: Text(
+            state.temperatureUnits.isCelsius ? '°C' : '°F',
+            style: theme.textTheme.bodyText1,
+          ),
+          onPressed: () => context.read<WeatherCubit>().toggleUnits(),
+        );
+      }),
     );
   }
 }

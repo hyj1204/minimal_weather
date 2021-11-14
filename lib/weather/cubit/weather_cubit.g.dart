@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: implicit_dynamic_parameter
+
 part of 'weather_cubit.dart';
 
 // **************************************************************************
@@ -16,8 +16,8 @@ WeatherState _$WeatherStateFromJson(Map<String, dynamic> json) {
       weatherList: $checkedConvert(
           json,
           'weather_list',
-          (v) => (v as List<dynamic>)
-              .map((e) => Weather.fromJson(e as Map<String, dynamic>))
+          (v) => (v as List<dynamic>?)
+              ?.map((e) => Weather.fromJson(e as Map<String, dynamic>))
               .toList()),
     );
     return val;

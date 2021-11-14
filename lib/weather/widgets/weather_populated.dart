@@ -35,8 +35,7 @@ class WeatherPopulated extends StatelessWidget {
                 weather: weatherList[0],
                 units: units,
               ),
-              _FutureWeather(
-                  weatherList: weatherList, theme: theme, units: units),
+              _FutureWeather(weatherList: weatherList, units: units),
               Text(
                 '''${l10n.weatherPopulatedTitle} ${TimeOfDay.fromDateTime(weatherList.first.lastUpdated).format(context)}''',
                 style: theme.textTheme.headline2,
@@ -53,16 +52,15 @@ class _FutureWeather extends StatelessWidget {
   const _FutureWeather({
     Key? key,
     required this.weatherList,
-    required this.theme,
     required this.units,
   }) : super(key: key);
 
   final List<Weather> weatherList;
-  final ThemeData theme;
   final TemperatureUnits units;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
     return ListView.builder(
         shrinkWrap: true,

@@ -32,7 +32,6 @@ class Temperature extends Equatable {
 class Weather extends Equatable {
   const Weather({
     required this.condition,
-    //最新更新时间
     required this.lastUpdated,
     required this.location,
     required this.temperature,
@@ -42,7 +41,6 @@ class Weather extends Equatable {
   factory Weather.fromJson(Map<String, dynamic> json) =>
       _$WeatherFromJson(json);
 
-  //把repository里面的weather 转换为现在用的weather数据
   factory Weather.fromRepository(weather_repository.Weather weather) {
     return Weather(
       condition: weather.condition,
@@ -52,14 +50,6 @@ class Weather extends Equatable {
       date: weather.date,
     );
   }
-
-  static final empty = Weather(
-    condition: WeatherCondition.unknown,
-    lastUpdated: DateTime(0),
-    temperature: const Temperature(value: 0),
-    location: '--',
-    date: DateTime(0),
-  );
 
   final WeatherCondition condition;
   final DateTime lastUpdated;
