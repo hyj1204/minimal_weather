@@ -1,5 +1,4 @@
 // ignore_for_file: implementation_imports
-
 import 'package:flutter/material.dart';
 import 'package:minimal_weather/l10n/l10n.dart';
 import 'package:minimal_weather/weather/weather.dart';

@@ -152,7 +152,7 @@ extension on WeatherCondition {
         return 'assets/condition_lotties/thundery.json';
       case WeatherCondition.unknown:
       default:
-        return '❓';
+        return ' ';
     }
   }
 }
