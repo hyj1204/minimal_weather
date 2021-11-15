@@ -1,7 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:minimal_weather/weather/weather.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:test/test.dart';
 import 'package:weather_repository/weather_repository.dart'
     as weather_repository;
 
@@ -39,6 +40,30 @@ void main() {
     test('initial state is correct', () {
       final weatherCubit = WeatherCubit(weatherRepository);
       expect(weatherCubit.state, const WeatherState());
+    });
+
+    test("throw CheckedFromJsonException when state's status is unknown", () {
+      expect(
+          () => WeatherState.fromJson(<String, dynamic>{
+                'status': 'lalala',
+                'weatherList': [weather],
+                'temperatureUnits': TemperatureUnits.fahrenheit,
+              }),
+          throwsA(isA<CheckedFromJsonException>()));
+    });
+
+    test('throw CheckedFromJsonException when unit is unknown', () {
+      expect(
+          () => WeatherState.fromJson(<String, dynamic>{
+                'status': WeatherStatus.success,
+                'weatherList': [weather],
+                'temperatureUnits': TemperatureUnits,
+              }),
+          throwsA(isA<CheckedFromJsonException>()));
+    });
+    test('throw CheckedFromJsonException when json is empty', () {
+      expect(() => WeatherState.fromJson(const <String, dynamic>{}),
+          throwsA(isA<CheckedFromJsonException>()));
     });
 
     group('toJson/fromJson', () {
