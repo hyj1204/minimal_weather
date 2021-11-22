@@ -15,6 +15,7 @@ https://user-images.githubusercontent.com/14248245/141205229-47fddb18-864b-45ef-
 https://user-images.githubusercontent.com/14248245/141205237-1ae7d42f-6ee9-4376-bbdc-0460a4273d33.mov
 
 ## Notes
-Testing is not complete.
+
+Unit and Widget testing coverage: 98.5% (326 of 331 lines)
 
 This project is made with the help of [Very Good Cli](https://github.com/VeryGoodOpenSource/very_good_cli).
