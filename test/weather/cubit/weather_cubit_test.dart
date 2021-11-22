@@ -23,7 +23,7 @@ void main() {
     late weather_repository.Weather weather;
     late weather_repository.WeatherRepository weatherRepository;
 
-    setUpAll(initHydratedBloc);
+    // setUpAll(initHydratedBloc);
 
     setUp(() {
       weather = MockWeather();
@@ -38,8 +38,10 @@ void main() {
     });
 
     test('initial state is correct', () {
-      final weatherCubit = WeatherCubit(weatherRepository);
-      expect(weatherCubit.state, const WeatherState());
+      mockHydratedStorage(() {
+        final weatherCubit = WeatherCubit(weatherRepository);
+        expect(weatherCubit.state, const WeatherState());
+      });
     });
 
     test("throw CheckedFromJsonException when state's status is unknown", () {
@@ -68,32 +70,34 @@ void main() {
 
     group('toJson/fromJson', () {
       test('work properly', () {
-        final weatherCubit = WeatherCubit(weatherRepository);
-        expect(
-          weatherCubit.fromJson(weatherCubit.toJson(weatherCubit.state)),
-          weatherCubit.state,
-        );
+        mockHydratedStorage(() {
+          final weatherCubit = WeatherCubit(weatherRepository);
+          expect(
+            weatherCubit.fromJson(weatherCubit.toJson(weatherCubit.state)),
+            weatherCubit.state,
+          );
+        });
       });
     });
 
     group('fetchWeather', () {
       blocTest<WeatherCubit, WeatherState>(
         'emits nothing when city is null',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         act: (cubit) => cubit.fetchWeather(null),
         expect: () => <WeatherState>[],
       );
 
       blocTest<WeatherCubit, WeatherState>(
         'emits nothing when city is empty',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         act: (cubit) => cubit.fetchWeather(''),
         expect: () => <WeatherState>[],
       );
 
       blocTest<WeatherCubit, WeatherState>(
         'calls getWeather with correct city',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         act: (cubit) => cubit.fetchWeather(weatherLocation),
         verify: (_) {
           verify(() => weatherRepository.getWeatherList(weatherLocation))
@@ -108,7 +112,7 @@ void main() {
             () => weatherRepository.getWeatherList(any()),
           ).thenThrow(Exception('oops'));
         },
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         act: (cubit) => cubit.fetchWeather(weatherLocation),
         expect: () => <WeatherState>[
           const WeatherState(status: WeatherStatus.loading),
@@ -118,7 +122,7 @@ void main() {
 
       blocTest<WeatherCubit, WeatherState>(
         'emits [loading, success] when getWeather returns (celsius)',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         act: (cubit) => cubit.fetchWeather(weatherLocation),
         expect: () => <dynamic>[
           const WeatherState(status: WeatherStatus.loading),
@@ -142,7 +146,7 @@ void main() {
 
       blocTest<WeatherCubit, WeatherState>(
         'emits [loading, success] when getWeather returns (fahrenheit)',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         seed: () =>
             const WeatherState(temperatureUnits: TemperatureUnits.fahrenheit),
         act: (cubit) => cubit.fetchWeather(weatherLocation),
@@ -174,7 +178,7 @@ void main() {
     group('refreshWeather', () {
       blocTest<WeatherCubit, WeatherState>(
         'emits nothing when status is not success',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         act: (cubit) => cubit.refreshWeather(),
         expect: () => <WeatherState>[],
         verify: (_) {
@@ -184,7 +188,7 @@ void main() {
 
       blocTest<WeatherCubit, WeatherState>(
         'emits nothing when location is null',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         seed: () => const WeatherState(status: WeatherStatus.success),
         act: (cubit) => cubit.refreshWeather(),
         expect: () => <WeatherState>[],
@@ -195,7 +199,7 @@ void main() {
 
       blocTest<WeatherCubit, WeatherState>(
         'invokes getWeather with correct location',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         seed: () => WeatherState(status: WeatherStatus.success, weatherList: [
           Weather(
               location: weatherLocation,
@@ -224,7 +228,7 @@ void main() {
             () => weatherRepository.getWeatherList(any()),
           ).thenThrow(Exception('oops'));
         },
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         seed: () => WeatherState(status: WeatherStatus.success, weatherList: [
           Weather(
               location: weatherLocation,
@@ -245,7 +249,7 @@ void main() {
 
       blocTest<WeatherCubit, WeatherState>(
         'emits updated weather (celsius)',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         seed: () => WeatherState(status: WeatherStatus.success, weatherList: [
           Weather(
             location: weatherLocation,
@@ -278,7 +282,7 @@ void main() {
 
       blocTest<WeatherCubit, WeatherState>(
         'emits updated weather (fahrenheit)',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         seed: () => WeatherState(
             temperatureUnits: TemperatureUnits.fahrenheit,
             status: WeatherStatus.success,
@@ -316,7 +320,7 @@ void main() {
     group('toggleUnits', () {
       blocTest<WeatherCubit, WeatherState>(
         'emits updated units when status is not success',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         act: (cubit) => cubit.toggleUnits(),
         expect: () => <WeatherState>[
           const WeatherState(temperatureUnits: TemperatureUnits.fahrenheit),
@@ -326,7 +330,7 @@ void main() {
       blocTest<WeatherCubit, WeatherState>(
         'emits updated units and temperature '
         'when status is success (celsius)',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         seed: () => WeatherState(
             status: WeatherStatus.success,
             temperatureUnits: TemperatureUnits.fahrenheit,
@@ -356,7 +360,7 @@ void main() {
       blocTest<WeatherCubit, WeatherState>(
         'emits updated units and temperature '
         'when status is success (fahrenheit)',
-        build: () => WeatherCubit(weatherRepository),
+        build: () => mockHydratedStorage(() => WeatherCubit(weatherRepository)),
         seed: () => WeatherState(status: WeatherStatus.success, weatherList: [
           Weather(
             location: weatherLocation,

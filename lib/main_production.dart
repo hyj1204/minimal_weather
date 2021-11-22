@@ -14,18 +14,23 @@ import 'package:weather_repository/weather_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = WeatherBlocObserver();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
-  HydratedBloc.storage = await HydratedStorage.build(
+  final storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
         : await getTemporaryDirectory(),
   );
 
-  runZonedGuarded(
-    () => runApp(WeatherApp(weatherRepository: WeatherRepository())),
-    (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+  HydratedBlocOverrides.runZoned(
+    () {
+      runZonedGuarded(
+        () => runApp(WeatherApp(weatherRepository: WeatherRepository())),
+        (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+      );
+    },
+    blocObserver: WeatherBlocObserver(),
+    storage: storage,
   );
 }
