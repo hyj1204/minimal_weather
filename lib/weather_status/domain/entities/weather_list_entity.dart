@@ -5,10 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'weather_entity.dart';
 
 class WeatherList extends Equatable {
-  const WeatherList(this.weatherList);
+  const WeatherList(this.weathers);
 
-  final List<Weather> weatherList;
+  final List<Weather> weathers;
 
   @override
-  List<Object?> get props => [weatherList];
+  List<Object?> get props => [weathers];
 }

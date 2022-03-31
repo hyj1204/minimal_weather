@@ -1,23 +1,21 @@
+// ignore_for_file: always_use_package_imports
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:minimal_weather/weather/weather.dart';
-import 'package:minimal_weather/weather/widgets/widgets.dart';
-import 'package:weather_repository/weather_repository.dart';
+import 'package:get_it/get_it.dart';
 
-class WeatherPage extends StatelessWidget {
+import '../../../weather/widgets/widgets.dart';
+import '../controller/weather_cubit.dart';
+
+class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => WeatherCubit(context.read<WeatherRepository>()),
-      child: const WeatherView(),
-    );
-  }
+  State<WeatherPage> createState() => _WeatherPageState();
 }
 
-class WeatherView extends StatelessWidget {
-  const WeatherView({Key? key}) : super(key: key);
+class _WeatherPageState extends State<WeatherPage> {
+  final _controller = GetIt.I.get<WeatherController>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,7 @@ class WeatherView extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.backgroundColor,
       body: Center(
-        child: BlocBuilder<WeatherCubit, WeatherState>(
+        child: BlocBuilder<WeatherController, WeatherState>(
           builder: (context, state) {
             switch (state.status) {
               case WeatherStatus.initial:
@@ -36,9 +34,7 @@ class WeatherView extends StatelessWidget {
                 return WeatherPopulated(
                   weatherList: state.weatherList,
                   units: state.temperatureUnits,
-                  onRefresh: () {
-                    return context.read<WeatherCubit>().refreshWeather();
-                  },
+                  onRefresh: _controller.refreshWeather,
                 );
               case WeatherStatus.failure:
               default:
@@ -51,7 +47,7 @@ class WeatherView extends StatelessWidget {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          UnitButton(weatherCubit: context.read<WeatherCubit>()),
+          UnitButton(controller: _controller),
           const Expanded(child: AnimatedSearchBar()),
         ],
       ),

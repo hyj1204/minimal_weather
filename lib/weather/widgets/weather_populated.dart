@@ -1,8 +1,12 @@
+// ignore_for_file: always_use_package_imports
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:minimal_weather/l10n/l10n.dart';
-import 'package:minimal_weather/weather/weather.dart';
+
+import '../../weather_status/domain/entities/temperature_entity.dart';
+import '../../weather_status/domain/entities/weather_entity.dart';
 
 class WeatherPopulated extends StatelessWidget {
   const WeatherPopulated({

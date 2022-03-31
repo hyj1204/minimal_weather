@@ -1,8 +1,9 @@
-// ignore_for_file: implementation_imports
+// ignore_for_file: implementation_imports, always_use_package_imports
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:minimal_weather/l10n/l10n.dart';
-import 'package:minimal_weather/weather/weather.dart';
-import 'package:provider/src/provider.dart';
+
+import '../../controller/weather_cubit.dart';
 
 class AnimatedSearchBar extends StatefulWidget {
   const AnimatedSearchBar({Key? key}) : super(key: key);
@@ -12,6 +13,8 @@ class AnimatedSearchBar extends StatefulWidget {
 }
 
 class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
+  final _controller = GetIt.I.get<WeatherController>();
+
   bool _folded = true;
 
   @override
@@ -47,7 +50,7 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
                       });
                     },
                     onSubmitted: (value) async {
-                      await context.read<WeatherCubit>().fetchWeather(value);
+                      await _controller.fetchWeather(value);
                     },
                   ),
           ),
