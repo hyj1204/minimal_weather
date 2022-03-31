@@ -21,8 +21,6 @@ dependencies:
   json_annotation: ^4.0.0
   lottie: ^1.2.1
   path_provider: ^2.0.3
-  weather_repository:
-    path: packages/weather_repository
 
 dev_dependencies:
   bloc_test: ^9.0.1

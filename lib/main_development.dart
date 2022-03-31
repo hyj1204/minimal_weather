@@ -9,10 +9,12 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:minimal_weather/app/app.dart';
 import 'package:minimal_weather/weather_bloc_observer.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:weather_repository/weather_repository.dart';
+
+import 'injection_container.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  registerDependencies();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
@@ -25,7 +27,7 @@ void main() async {
   HydratedBlocOverrides.runZoned(
     () {
       runZonedGuarded(
-        () => runApp(WeatherApp(weatherRepository: WeatherRepository())),
+        () => runApp(const WeatherApp()),
         (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
       );
     },

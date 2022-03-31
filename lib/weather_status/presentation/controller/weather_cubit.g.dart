@@ -6,26 +6,35 @@ part of 'weather_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-WeatherState _$WeatherStateFromJson(Map<String, dynamic> json) {
-  return $checkedNew('WeatherState', json, () {
-    final val = WeatherState(
-      status: $checkedConvert(
-          json, 'status', (v) => _$enumDecode(_$WeatherStatusEnumMap, v)),
-      temperatureUnits: $checkedConvert(json, 'temperature_units',
-          (v) => _$enumDecode(_$TemperatureUnitsEnumMap, v)),
-      weatherList: $checkedConvert(
-          json,
-          'weather_list',
-          (v) => (v as List<dynamic>?)
-              ?.map((e) => Weather.fromJson(e as Map<String, dynamic>))
-              .toList()),
+WeatherState _$WeatherStateFromJson(Map<String, dynamic> json) =>
+    $checkedCreate(
+      'WeatherState',
+      json,
+      ($checkedConvert) {
+        final val = WeatherState(
+          status: $checkedConvert(
+              'status',
+              (v) =>
+                  _$enumDecodeNullable(_$WeatherStatusEnumMap, v) ??
+                  WeatherStatus.initial),
+          temperatureUnits: $checkedConvert(
+              'temperature_units',
+              (v) =>
+                  _$enumDecodeNullable(_$TemperatureUnitsEnumMap, v) ??
+                  TemperatureUnits.celsius),
+          weatherList: $checkedConvert(
+              'weather_list',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => Weather.fromJson(e as Map<String, dynamic>))
+                  .toList()),
+        );
+        return val;
+      },
+      fieldKeyMap: const {
+        'temperatureUnits': 'temperature_units',
+        'weatherList': 'weather_list'
+      },
     );
-    return val;
-  }, fieldKeyMap: const {
-    'temperatureUnits': 'temperature_units',
-    'weatherList': 'weather_list'
-  });
-}
 
 Map<String, dynamic> _$WeatherStateToJson(WeatherState instance) =>
     <String, dynamic>{
@@ -58,6 +67,17 @@ K _$enumDecode<K, V>(
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$WeatherStatusEnumMap = {

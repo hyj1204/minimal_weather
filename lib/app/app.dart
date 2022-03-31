@@ -6,26 +6,20 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:minimal_weather/l10n/l10n.dart';
-import 'package:minimal_weather/weather/view/weather_page.dart';
-import 'package:weather_repository/weather_repository.dart';
+
+import '../weather_status/presentation/pages/weather_page.dart';
 
 class WeatherApp extends StatelessWidget {
-  const WeatherApp({Key? key, required WeatherRepository weatherRepository})
-      : _weatherRepository = weatherRepository,
-        super(key: key);
-
-  final WeatherRepository _weatherRepository;
+  const WeatherApp({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _weatherRepository,
-      child: const WeatherAppView(),
-    );
+    return const WeatherAppView();
   }
 }
 
