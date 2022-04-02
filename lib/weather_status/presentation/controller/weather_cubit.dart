@@ -22,35 +22,14 @@ class WeatherController extends HydratedCubit<WeatherState> {
     emit(state.copyWith(status: WeatherStatus.loading));
 
     try {
-      final _listOfWeather = await _weatherUsecase.getWeatherList(city);
-
-      final units = state.temperatureUnits;
-      final weatherList = <Weather>[];
-      units.isFahrenheit == true
-          ? _listOfWeather.weathers.map(
-              (Weather e) {
-                weatherList.add(
-                  e.copyWith(
-                    temperature: Temperature(
-                      value: e.temperature.value.toFahrenheit(),
-                    ),
-                  ),
-                );
-              },
-            )
-          : _listOfWeather.weathers.map((e) {
-              weatherList.add(
-                e.copyWith(
-                  temperature: Temperature(value: e.temperature.value),
-                ),
-              );
-            });
+      final _listOfWeather =
+          await _weatherUsecase.getWeatherList(city, state.temperatureUnits);
 
       emit(
         state.copyWith(
           status: WeatherStatus.success,
-          temperatureUnits: units,
-          weatherList: weatherList,
+          temperatureUnits: state.temperatureUnits,
+          weatherList: _listOfWeather,
         ),
       );
     } on Exception {
@@ -62,74 +41,18 @@ class WeatherController extends HydratedCubit<WeatherState> {
     if (!state.status.isSuccess) return;
     if (state.weatherList.isEmpty) return;
     try {
-      final _listOfWeather = await _weatherUsecase
-          .getWeatherList(state.weatherList.first.location);
-
-      final units = state.temperatureUnits;
-      final weatherList = <Weather>[];
-      units.isFahrenheit == true
-          ? _listOfWeather.weathers.map(
-              (Weather e) {
-                weatherList.add(
-                  e.copyWith(
-                    temperature: Temperature(
-                      value: e.temperature.value.toFahrenheit(),
-                    ),
-                  ),
-                );
-              },
-            )
-          : _listOfWeather.weathers.map((e) {
-              weatherList.add(
-                e.copyWith(
-                  temperature: Temperature(value: e.temperature.value),
-                ),
-              );
-            });
+      final _listOfWeather = await _weatherUsecase.getWeatherList(
+          state.weatherList.first.location, state.temperatureUnits);
 
       emit(
         state.copyWith(
           status: WeatherStatus.success,
-          temperatureUnits: units,
-          weatherList: weatherList,
+          temperatureUnits: state.temperatureUnits,
+          weatherList: _listOfWeather,
         ),
       );
     } on Exception {
       emit(state);
-    }
-  }
-
-  void toggleUnits() {
-    final units = state.temperatureUnits.isFahrenheit
-        ? TemperatureUnits.celsius
-        : TemperatureUnits.fahrenheit;
-
-    if (!state.status.isSuccess) {
-      emit(state.copyWith(temperatureUnits: units));
-      return;
-    }
-
-    var weatherList = state.weatherList;
-    if (weatherList.isNotEmpty) {
-      if (units.isFahrenheit == true) {
-        weatherList = weatherList
-            .map((e) => e.copyWith(
-                temperature:
-                    Temperature(value: e.temperature.value.toFahrenheit())))
-            .toList();
-      } else {
-        weatherList = weatherList
-            .map((e) => e.copyWith(
-                temperature:
-                    Temperature(value: e.temperature.value.toCelsius())))
-            .toList();
-      }
-      emit(
-        state.copyWith(
-          temperatureUnits: units,
-          weatherList: weatherList,
-        ),
-      );
     }
   }
 
@@ -139,9 +62,4 @@ class WeatherController extends HydratedCubit<WeatherState> {
 
   @override
   Map<String, dynamic> toJson(WeatherState state) => state.toJson();
-}
-
-extension on double {
-  double toFahrenheit() => (this * 9 / 5) + 32;
-  double toCelsius() => (this - 32) * 5 / 9;
 }
