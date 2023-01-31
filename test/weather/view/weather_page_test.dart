@@ -43,6 +43,8 @@ class _L10nTest extends StatelessWidget {
 }
 
 void main() {
+  initHydratedStorage();
+
   setUpAll(() {
     registerFallbackValue(FakeWeatherState());
   });
@@ -55,13 +57,13 @@ void main() {
     });
 
     testWidgets('renders WeatherView', (tester) async {
-      await mockHydratedStorage(() async {
-        await tester.pumpWidget(RepositoryProvider.value(
+      await tester.pumpWidget(
+        RepositoryProvider.value(
           value: weatherRepository,
           //for l10n
           child: _L10nTest(WeatherPage()),
-        ));
-      });
+        ),
+      );
 
       expect(find.byType(WeatherView), findsOneWidget);
     });
