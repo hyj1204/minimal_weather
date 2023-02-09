@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'package:intl/intl.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:open_meteo_api/open_meteo_api.dart';
@@ -55,30 +57,56 @@ class OpenMeteoApiClient {
   }
 
   /// Fetches [Weather] for a given [latitude] and [longitude].
-  Future<Weather> getWeather({
+  Future<List<Weather>> getWeatherList({
     required double latitude,
     required double longitude,
   }) async {
+    final timeZone = DateTime.now().timeZoneName;
+    final startDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final endDate = DateFormat('yyyy-MM-dd')
+        .format(DateTime.now().add(const Duration(days: 5)));
     final weatherRequest = Uri.https(_baseUrlWeather, 'v1/forecast', {
       'latitude': '$latitude',
       'longitude': '$longitude',
-      'current_weather': 'true'
+      'daily': ['weathercode', 'temperature_2m_max'],
+      'timezone': timeZone,
+      'start_date': startDate,
+      'end_date': endDate,
     });
+
+    print(weatherRequest);
 
     final weatherResponse = await _httpClient.get(weatherRequest);
 
     if (weatherResponse.statusCode != 200) {
+      //TODO(yijing): show error message
       throw WeatherRequestFailure();
     }
 
     final bodyJson = jsonDecode(weatherResponse.body) as Map<String, dynamic>;
 
-    if (!bodyJson.containsKey('current_weather')) {
+    if (!bodyJson.containsKey('daily')) {
       throw WeatherNotFoundFailure();
     }
 
-    final weatherJson = bodyJson['current_weather'] as Map<String, dynamic>;
+    final dailyJson = bodyJson['daily'] as Map<String, dynamic>;
+    final tempertureList = dailyJson['temperature_2m_max'];
+    final weathercodeList = dailyJson['weathercode'];
+    final dateList = dailyJson['time'];
 
-    return Weather.fromJson(weatherJson);
+    // Map<String, String> combinedMap =
+    final listLength = tempertureList.length;
+
+    List<Weather> weatherList = List.generate(
+      listLength,
+      (index) => Weather.fromJson(
+        {
+          'temperature': tempertureList[index],
+          'weathercode': weathercodeList[index],
+          'applicable_date': dateList[index],
+        },
+      ),
+    );
+    return weatherList;
   }
 }

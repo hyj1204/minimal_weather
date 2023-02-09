@@ -26,33 +26,34 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
         borderRadius: BorderRadius.circular(32),
         color: _folded ? theme.backgroundColor : Colors.white,
       ),
-      child: Row(children: [
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.only(left: 16),
-            child: _folded
-                ? null
-                : TextField(
-                    autofocus: true,
-                    cursorColor: theme.backgroundColor,
-                    decoration: InputDecoration(
-                      hintText: l10n.animatedSearchBarText,
-                      hintStyle: TextStyle(color: theme.backgroundColor),
-                      border: InputBorder.none,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.only(left: 16),
+              child: _folded
+                  ? null
+                  : TextField(
+                      autofocus: true,
+                      cursorColor: theme.backgroundColor,
+                      decoration: InputDecoration(
+                        hintText: l10n.animatedSearchBarText,
+                        hintStyle: TextStyle(color: theme.backgroundColor),
+                        border: InputBorder.none,
+                      ),
+                      keyboardType: TextInputType.text,
+                      onEditingComplete: () {
+                        setState(() {
+                          _folded = !_folded;
+                        });
+                      },
+                      onSubmitted: (value) async {
+                        await context.read<WeatherCubit>().fetchWeather(value);
+                      },
                     ),
-                    keyboardType: TextInputType.text,
-                    onEditingComplete: () {
-                      setState(() {
-                        _folded = !_folded;
-                      });
-                    },
-                    onSubmitted: (value) async {
-                      await context.read<WeatherCubit>().fetchWeather(value);
-                    },
-                  ),
+            ),
           ),
-        ),
-        IconButton(
+          IconButton(
             key: const Key('search_button'),
             onPressed: () {
               setState(() {
@@ -62,8 +63,10 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
             icon: Icon(
               _folded ? Icons.search_outlined : Icons.close,
               color: _folded ? Colors.white : theme.backgroundColor,
-            ))
-      ]),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
